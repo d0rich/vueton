@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "dependencies": {
+    "@d0rich/esprit-design": "^0.4.2",
+    "@d0rich/vueton": "file:..",
+    "@nuxt/content": "^2.13.4",
+    "d0xigen": "^1.1.0"
+  }
+}
