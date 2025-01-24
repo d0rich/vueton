@@ -1,5 +1,11 @@
 # @d0rich/vueton
 
+## 0.0.5
+
+### Patch Changes
+
+- db1a5bb: Optimize external dependenies
+
 ## 0.0.4
 
 ### Patch Changes
