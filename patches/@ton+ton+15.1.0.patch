@@ -1,0 +1,212 @@
+diff --git a/node_modules/@ton/ton/dist/client/TonClient.d.ts b/node_modules/@ton/ton/dist/client/TonClient.d.ts
+index 194dff5..8a837e8 100644
+--- a/node_modules/@ton/ton/dist/client/TonClient.d.ts
++++ b/node_modules/@ton/ton/dist/client/TonClient.d.ts
+@@ -28,7 +28,7 @@ export type TonClientParameters = {
+ };
+ export declare class TonClient {
+     readonly parameters: TonClientParameters;
+-    protected api: HttpApi;
++    readonly api: HttpApi;
+     constructor(parameters: TonClientParameters);
+     /**
+      * Get Address Balance
+diff --git a/node_modules/@ton/ton/dist/client/TonClient.js b/node_modules/@ton/ton/dist/client/TonClient.js
+index a196ab8..6f491cd 100644
+--- a/node_modules/@ton/ton/dist/client/TonClient.js
++++ b/node_modules/@ton/ton/dist/client/TonClient.js
+@@ -273,12 +273,13 @@ function parseStackEntry(x) {
+     const typeName = x['@type'];
+     switch (typeName) {
+         case 'tvm.list':
++            return { type: 'tuple', items: x.elements.map(parseStackEntry) };
+         case 'tvm.tuple':
+-            return x.elements.map(parseStackEntry);
++            return { type: 'tuple', items: x.elements.map(parseStackEntry) };
+         case 'tvm.cell':
+-            return core_1.Cell.fromBoc(Buffer.from(x.bytes, 'base64'))[0];
++            return { type: 'cell', cell: core_1.Cell.fromBoc(Buffer.from(x.bytes, 'base64'))[0] };
+         case 'tvm.slice':
+-            return core_1.Cell.fromBoc(Buffer.from(x.bytes, 'base64'))[0];
++            return { type: 'slice', cell: core_1.Cell.fromBoc(Buffer.from(x.bytes, 'base64'))[0] };
+         case 'tvm.stackEntryCell':
+             return parseStackEntry(x.cell);
+         case 'tvm.stackEntrySlice':
+@@ -290,7 +291,7 @@ function parseStackEntry(x) {
+         case 'tvm.stackEntryNumber':
+             return parseStackEntry(x.number);
+         case 'tvm.numberDecimal':
+-            return BigInt(x.number);
++            return { type: 'int', value: BigInt(x.number) };
+         default:
+             throw Error('Unsupported item type: ' + typeName);
+     }
+diff --git a/node_modules/@ton/ton/dist/client/api/HttpApi.d.ts b/node_modules/@ton/ton/dist/client/api/HttpApi.d.ts
+index e5c03b5..dd1f2f3 100644
+--- a/node_modules/@ton/ton/dist/client/api/HttpApi.d.ts
++++ b/node_modules/@ton/ton/dist/client/api/HttpApi.d.ts
+@@ -6,7 +6,7 @@
+  * LICENSE file in the root directory of this source tree.
+  */
+ import { TonCache } from './TonCache';
+-import { AxiosAdapter } from 'axios';
++import axios, { AxiosAdapter } from 'axios';
+ import { Address, Cell, TupleItem } from '@ton/core';
+ import { z } from 'zod';
+ declare const message: z.ZodObject<{
+@@ -428,6 +428,7 @@ export interface HttpApiParameters {
+     adapter?: AxiosAdapter;
+ }
+ export declare class HttpApi {
++    readonly axios: typeof axios;
+     readonly endpoint: string;
+     readonly cache: TonCache;
+     private readonly parameters;
+diff --git a/node_modules/@ton/ton/dist/client/api/HttpApi.js b/node_modules/@ton/ton/dist/client/api/HttpApi.js
+index 1b2331f..973c3e1 100644
+--- a/node_modules/@ton/ton/dist/client/api/HttpApi.js
++++ b/node_modules/@ton/ton/dist/client/api/HttpApi.js
+@@ -147,6 +147,7 @@ class TypedCache {
+ }
+ class HttpApi {
+     constructor(endpoint, parameters) {
++        this.axios = axios_1.default;
+         this.endpoint = endpoint;
+         this.cache = new TonCache_1.InMemoryCache();
+         this.parameters = {
+diff --git a/node_modules/@ton/ton/dist/utils/stack.d.ts b/node_modules/@ton/ton/dist/utils/stack.d.ts
+new file mode 100644
+index 0000000..85ccf52
+--- /dev/null
++++ b/node_modules/@ton/ton/dist/utils/stack.d.ts
+@@ -0,0 +1,97 @@
++import { z } from 'zod';
++type NumberDecimal = {
++    '@type': 'tvm.numberDecimal';
++    number: string;
++};
++type StackEntryNumber = {
++    '@type': 'tvm.stackEntryNumber';
++    number: NumberDecimal;
++};
++type Slice = {
++    '@type': 'tvm.slice';
++    bytes: string;
++};
++type StackEntrySlice = {
++    '@type': 'tvm.stackEntrySlice';
++    slice: Slice;
++};
++type Cell = {
++    '@type': 'tvm.cell';
++    bytes: string;
++};
++type StackEntryCell = {
++    '@type': 'tvm.stackEntryCell';
++    cell: Cell;
++};
++export type List = {
++    '@type': 'tvm.list';
++    elements: Value[];
++};
++type StackEntryList = {
++    '@type': 'tvm.stackEntryList';
++    list: List;
++};
++export type Tuple = {
++    '@type': 'tvm.tuple';
++    elements: Value[];
++};
++type StackEntryTuple = {
++    '@type': 'tvm.stackEntryTuple';
++    tuple: Tuple;
++};
++type CommonValue = NumberDecimal | Cell | Slice | List | Tuple;
++type StackEntryValue = StackEntryCell | StackEntryNumber | StackEntrySlice | StackEntryList | StackEntryTuple;
++export type Value = CommonValue | StackEntryValue;
++declare const nullSchema: z.ZodUnion<[z.ZodTuple<[z.ZodLiteral<"null">], null>, z.ZodTuple<[z.ZodLiteral<"null">, z.ZodOptional<z.ZodNull>], null>]>;
++type NullStackItem = z.infer<typeof nullSchema>;
++declare const numSchema: z.ZodTuple<[z.ZodLiteral<"num">, z.ZodString], null>;
++type NumStackItem = z.infer<typeof numSchema>;
++declare const cellSchema: z.ZodTuple<[z.ZodLiteral<"cell">, z.ZodObject<{
++    bytes: z.ZodString;
++}, "strip", z.ZodTypeAny, {
++    bytes: string;
++}, {
++    bytes: string;
++}>], null>;
++type CellStackItem = z.infer<typeof cellSchema>;
++declare const sliceSchema: z.ZodTuple<[z.ZodLiteral<"slice">, z.ZodObject<{
++    bytes: z.ZodString;
++}, "strip", z.ZodTypeAny, {
++    bytes: string;
++}, {
++    bytes: string;
++}>], null>;
++type SliceStackItem = z.infer<typeof sliceSchema>;
++declare const builderSchema: z.ZodTuple<[z.ZodLiteral<"builder">, z.ZodObject<{
++    bytes: z.ZodString;
++}, "strip", z.ZodTypeAny, {
++    bytes: string;
++}, {
++    bytes: string;
++}>], null>;
++type BuilderStackItem = z.infer<typeof builderSchema>;
++declare const tupleSchema: z.ZodTuple<[z.ZodLiteral<"tuple">, z.ZodType<Tuple, z.ZodTypeDef, Tuple>], null>;
++type TupleStackItem = z.infer<typeof tupleSchema>;
++declare const listSchema: z.ZodTuple<[z.ZodLiteral<"list">, z.ZodType<List, z.ZodTypeDef, List>], null>;
++type ListStackItem = z.infer<typeof listSchema>;
++export declare const stackItemSchema: z.ZodUnion<[z.ZodUnion<[z.ZodTuple<[z.ZodLiteral<"null">], null>, z.ZodTuple<[z.ZodLiteral<"null">, z.ZodOptional<z.ZodNull>], null>]>, z.ZodTuple<[z.ZodLiteral<"num">, z.ZodString], null>, z.ZodTuple<[z.ZodLiteral<"cell">, z.ZodObject<{
++    bytes: z.ZodString;
++}, "strip", z.ZodTypeAny, {
++    bytes: string;
++}, {
++    bytes: string;
++}>], null>, z.ZodTuple<[z.ZodLiteral<"slice">, z.ZodObject<{
++    bytes: z.ZodString;
++}, "strip", z.ZodTypeAny, {
++    bytes: string;
++}, {
++    bytes: string;
++}>], null>, z.ZodTuple<[z.ZodLiteral<"builder">, z.ZodObject<{
++    bytes: z.ZodString;
++}, "strip", z.ZodTypeAny, {
++    bytes: string;
++}, {
++    bytes: string;
++}>], null>, z.ZodTuple<[z.ZodLiteral<"tuple">, z.ZodType<Tuple, z.ZodTypeDef, Tuple>], null>, z.ZodTuple<[z.ZodLiteral<"list">, z.ZodType<List, z.ZodTypeDef, List>], null>]>;
++export type StackItem = NullStackItem | NumStackItem | CellStackItem | SliceStackItem | BuilderStackItem | TupleStackItem | ListStackItem;
++export {};
+diff --git a/node_modules/@ton/ton/dist/utils/stack.js b/node_modules/@ton/ton/dist/utils/stack.js
+new file mode 100644
+index 0000000..fc43e63
+--- /dev/null
++++ b/node_modules/@ton/ton/dist/utils/stack.js
+@@ -0,0 +1,27 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
++exports.stackItemSchema = void 0;
++const zod_1 = require("zod");
++// zod definitions
++const serializedCellSchema = zod_1.z.object({
++    bytes: zod_1.z.string(),
++});
++const nullSchema = zod_1.z.union([
++    zod_1.z.tuple([zod_1.z.literal('null')]),
++    zod_1.z.tuple([zod_1.z.literal('null'), zod_1.z.null().optional()]),
++]);
++const numSchema = zod_1.z.tuple([zod_1.z.literal('num'), zod_1.z.string()]);
++const cellSchema = zod_1.z.tuple([zod_1.z.literal('cell'), serializedCellSchema]);
++const sliceSchema = zod_1.z.tuple([zod_1.z.literal('slice'), serializedCellSchema]);
++const builderSchema = zod_1.z.tuple([zod_1.z.literal('builder'), serializedCellSchema]);
++const tupleSchema = zod_1.z.tuple([zod_1.z.literal('tuple'), zod_1.z.unknown()]);
++const listSchema = zod_1.z.tuple([zod_1.z.literal('list'), zod_1.z.unknown()]);
++exports.stackItemSchema = zod_1.z.union([
++    nullSchema,
++    numSchema,
++    cellSchema,
++    sliceSchema,
++    builderSchema,
++    tupleSchema,
++    listSchema,
++]);
