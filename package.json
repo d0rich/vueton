@@ -1,5 +1,5 @@
 {
-  "name": "@d0rich/vueton",
+  "name": "vueton",
   "version": "0.0.6",
   "description": "The TON integration for Vue 3",
   "keywords": [
@@ -10,7 +10,7 @@
   ],
   "license": "MIT",
   "author": {
-    "name": "Nikolai Dorofeev",
+    "name": "Nikolai Dorofeev - d0rich",
     "email": "dorich2000@gmail.com",
     "url": "https://d0rich.me"
   },
