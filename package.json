@@ -1,0 +1,16 @@
+{
+  "name": "@d0rich/vueton",
+  "private": false,
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@ton/core": "^0.59.0",
+    "@ton/ton": "^15.1.0",
+    "@tonconnect/ui": "^2.0.9",
+    "@vueuse/core": "^12.0.0",
+    "axios": "^1.6.7",
+    "vue": "^3.5.13"
+  },
+  "dependencies": {
+    "axios-retry": "^4.5.0"
+  }
+}
