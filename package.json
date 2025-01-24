@@ -5,6 +5,20 @@
   },
   "private": false,
   "version": "0.0.2",
+  "type": "module",
+  "main": "./dist/vueton.umd.cjs",
+  "module": "./dist/vueton.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/vueton.js",
+      "require": "./dist/vueton.umd.cjs"
+    },
+    "./style.css": "./dist/style.css",
+    "./tailwind.config": "./tailwind.config.js",
+    "./src/": "./src/"
+  },
   "scripts": {
     "postinstall": "npx patch-package",
     "build": "vue-tsc --noEmit && vite build",
