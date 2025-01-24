@@ -1,10 +1,9 @@
 import axiosRetry from 'axios-retry'
 import { ref, computed, type Ref } from 'vue'
-import { toUserFriendlyAddress } from '@tonconnect/ui'
+import { TonConnectUI, toUserFriendlyAddress } from '@tonconnect/ui'
 import type { SenderArguments, Sender } from '@ton/core'
 import { Address } from '@ton/core/dist/address/Address'
 import { CHAIN } from '@tonconnect/protocol'
-import { TonConnectUI } from '@tonconnect/ui'
 import {
   TonClient,
   type TonClientParameters
@@ -19,7 +18,7 @@ import { setGlobalTonConnect } from '../store'
 
 export function setupTonConnect<T extends SetupTonConnectProps>(
   props: T
-): SetupTonConnectReturn<T> {
+): SetupTonConnectReturn {
   // useTonConnectUI replacement
   const tonConnect = new TonConnectUI(props.tonConnectUI)
 
@@ -83,7 +82,7 @@ export function setupTonConnect<T extends SetupTonConnectProps>(
     }
   }
 
-  const result: SetupTonConnectReturn<T> = {
+  const result: SetupTonConnectReturn = {
     tonConnect,
     tonClient,
     isConnected,
