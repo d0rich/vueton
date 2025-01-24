@@ -11,8 +11,7 @@ import {
 import type {
   SetupTonConnectProps,
   Network,
-  SetupTonConnectReturn,
-  SetupTonConnectPropsAsync
+  SetupTonConnectReturn
 } from './types'
 import { setGlobalTonConnect } from '../store'
 
@@ -66,9 +65,7 @@ export function setupTonConnect<T extends SetupTonConnectProps>(
 
   const tonClient = ref(
     tonClientInitProps === null ? null : new TonClient(tonClientInitProps)
-  ) as T extends SetupTonConnectPropsAsync
-    ? Ref<TonClient | null>
-    : Ref<TonClient>
+  ) as Ref<TonClient | null>
   if (tonClientPropsPromise instanceof Promise) {
     tonClientPropsPromise.then((config) => {
       tonClient.value = new TonClient(config)

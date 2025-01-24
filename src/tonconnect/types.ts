@@ -1,4 +1,5 @@
 import type { IAxiosRetryConfigExtended } from 'axios-retry'
+import type axiosRetry from 'axios-retry'
 import type {
   TonConnectUI,
   SendTransactionResponse,
@@ -13,22 +14,35 @@ import type { TonClient } from '@ton/ton/dist/client/TonClient'
 
 export type Network = 'mainnet' | 'testnet'
 
-interface SetupTonConnectPropsCommon {
+export interface SetupTonConnectProps {
+  /**
+   * Options to create TonConnect UI instance.
+   *
+   * @see {@link TonConnectUI}
+   * @see {@link TonConnectUiCreateOptions}
+   */
   tonConnectUI: TonConnectUiCreateOptions
+  /**
+   * Options to configure axios-retry.
+   *
+   * @see {@link axiosRetry}
+   * @see {@link IAxiosRetryConfigExtended}
+   */
   axiosRetry?: IAxiosRetryConfigExtended
+  /**
+   * TonClient parameters or a function that returns TonClient parameters.
+   * If a function is provided, it will be called once and the result will be used to initialize TonClient.
+   * If a function returns a Promise, it will be awaited before initializing TonClient.
+   *
+   * @see {@link TonClient}
+   * @see {@link TonClientParameters}
+   */
+  tonClient:
+    | TonClientParameters
+    | (() => TonClientParameters)
+    | (() => Promise<TonClientParameters>)
 }
 
-export interface SetupTonConnectPropsSync extends SetupTonConnectPropsCommon {
-  tonClient: TonClientParameters | (() => TonClientParameters)
-}
-
-export interface SetupTonConnectPropsAsync extends SetupTonConnectPropsCommon {
-  tonClient: () => Promise<TonClientParameters>
-}
-
-export type SetupTonConnectProps =
-  | SetupTonConnectPropsSync
-  | SetupTonConnectPropsAsync
 export type SetupTonConnectReturn = {
   /**
    * TonConnect UI instance.
