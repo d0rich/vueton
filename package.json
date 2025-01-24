@@ -1,10 +1,30 @@
 {
   "name": "@d0rich/vueton",
+  "version": "0.0.6",
+  "description": "The TON integration for Vue 3",
+  "keywords": [
+    "ton",
+    "vue",
+    "vue3",
+    "web3"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Nikolai Dorofeev",
+    "email": "dorich2000@gmail.com",
+    "url": "https://d0rich.me"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/d0rich/vueton.git"
+  },
+  "bugs": {
+    "url": "https://github.com/d0rich/vueton/issues"
+  },
+  "readme": "README.md",
   "publishConfig": {
     "access": "public"
   },
-  "private": false,
-  "version": "0.0.6",
   "type": "module",
   "main": "./dist/vueton.umd.cjs",
   "module": "./dist/vueton.js",
