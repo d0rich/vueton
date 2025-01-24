@@ -1,4 +1,4 @@
-# vueton
+# @d0rich/vueton
 
 Vueton is a Vue3 plugin that provides an integration with [TON Blockchain](https://ton.org/). This library is inspired by the official react SDK [@tonconnect/ui-react](https://www.npmjs.com/package/@tonconnect/ui-react), but also have its own unique features.
 
@@ -17,7 +17,7 @@ npm install @tonconnect/ui @ton/ton
 Install the package:
 
 ```bash
-npm install vueton
+npm install @d0rich/vueton
 ```
 
 ### Initialization
@@ -29,7 +29,7 @@ It accepts three configurations for different libraries:
 - `axiosRetry` (optional) - [`axios-retry`](https://www.npmjs.com/package/axios-retry) options.
 
 ```ts
-import { createVueton } from 'vueton'
+import { createVueton } from '@d0rich/vueton'
 
 const vueton = createVueton({
   tonClient: {/* ton-client options */},
@@ -41,7 +41,7 @@ const vueton = createVueton({
 `tonClient` also can be a sync/async function that returns `TonClient` instance. It is useful when you want to use a library like [`@orbs-network/ton-access`](https://www.npmjs.com/package/@orbs-network/ton-access).
 
 ```ts
-import { createVueton } from 'vueton'
+import { createVueton } from '@d0rich/vueton'
 import { getHttpEndpoint } from '@orbs-network/ton-access'
 
 const vueton = createVueton({
@@ -100,7 +100,7 @@ Send a transaction:
 </template>
 
 <script setup lang="ts">
-import {useTonConnect, useSendMessage} from 'vueton'
+import {useTonConnect, useSendMessage} from '@d0rich/vueton'
 
 const {tonWallet} = useTonConnect()
 const {sendMessage, isFetching, success} = useSendMessage({
