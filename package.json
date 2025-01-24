@@ -10,7 +10,30 @@
     "axios": "^1.6.7",
     "vue": "^3.5.13"
   },
+  "scripts": {
+    "postinstall": "npx patch-package",
+    "build": "",
+    "dev": "",
+    "lint:js": "eslint .",
+    "lint:prettier": "prettier --check .",
+    "lint": "npm run lint:js && npm run lint:prettier",
+    "lintfix": "prettier --write --list-different . && eslint . --fix",
+    "changes": "changeset",
+    "release": "turbo run test && changeset publish"
+  },
   "dependencies": {
     "axios-retry": "^4.5.0"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.11",
+    "@eslint/compat": "^1.2.5",
+    "@typescript-eslint/parser": "^8.21.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-unicorn": "^56.0.1",
+    "eslint-plugin-vitest": "^0.5.4",
+    "typescript": "^5.7.3",
+    "vue-eslint-parser": "^9.4.3",
+    "vue-tsc": "^2.2.0"
   }
 }
