@@ -1,5 +1,11 @@
 # @d0rich/vueton
 
+## 0.0.4
+
+### Patch Changes
+
+- a365fd8: Configure .npmignore
+
 ## 0.0.3
 
 ### Patch Changes
