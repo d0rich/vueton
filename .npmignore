@@ -1,0 +1,13 @@
+docs
+
+.changeset
+.gitgub
+node_modules
+.editorconfig
+.gitignore
+.prettierignore
+.prettierrc
+eslint.config.js
+vite.config.ts
+tsconfig.json
+tsconfig.node.json
