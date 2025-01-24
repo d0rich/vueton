@@ -11,7 +11,7 @@
     "lint": "npm run lint:js && npm run lint:prettier",
     "lintfix": "prettier --write --list-different . && eslint . --fix",
     "changes": "changeset",
-    "release": "turbo run test && changeset publish"
+    "release": "npm run build && changeset publish"
   },
   "dependencies": {
     "axios-retry": "^4.5.0",
