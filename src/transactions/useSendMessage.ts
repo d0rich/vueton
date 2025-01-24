@@ -1,5 +1,4 @@
 import { computed, ref } from 'vue'
-import consola from 'consola/browser'
 
 import { useTonConnect } from '../tonconnect/useTonConnect'
 
@@ -33,7 +32,7 @@ export function useSendMessage(props: UseSendMessageParams) {
   async function sendMessage() {
     if (isFetching.value) return
     if (!tonAddress.value) {
-      consola.error('Wallet is not initialized')
+      console.error('Wallet is not initialized')
       return
     }
     if (props.preSendValidation && !(await props.preSendValidation())) {

@@ -2,18 +2,10 @@
   "name": "@d0rich/vueton",
   "private": false,
   "version": "0.0.1",
-  "peerDependencies": {
-    "@ton/core": "^0.59.0",
-    "@ton/ton": "^15.1.0",
-    "@tonconnect/ui": "^2.0.9",
-    "@vueuse/core": "^12.0.0",
-    "axios": "^1.6.7",
-    "vue": "^3.5.13"
-  },
   "scripts": {
     "postinstall": "npx patch-package",
-    "build": "",
-    "dev": "",
+    "build": "vue-tsc --noEmit && vite build",
+    "dev": "vite",
     "lint:js": "eslint .",
     "lint:prettier": "prettier --check .",
     "lint": "npm run lint:js && npm run lint:prettier",
@@ -22,17 +14,28 @@
     "release": "turbo run test && changeset publish"
   },
   "dependencies": {
-    "axios-retry": "^4.5.0"
+    "axios-retry": "^4.5.0",
+    "@vueuse/core": "^12.0.0"
+  },
+  "peerDependencies": {
+    "@ton/core": "^0.59.0",
+    "@ton/ton": "^15.1.0",
+    "@tonconnect/ui": "^2.0.9",
+    "axios": "^1.6.7",
+    "vue": "^3.5.13"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.11",
     "@eslint/compat": "^1.2.5",
     "@typescript-eslint/parser": "^8.21.0",
+    "@vitejs/plugin-vue": "^5.2.1",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-unicorn": "^56.0.1",
     "eslint-plugin-vitest": "^0.5.4",
     "typescript": "^5.7.3",
+    "vite": "^6.0.11",
+    "vite-plugin-dts": "^4.5.0",
     "vue-eslint-parser": "^9.4.3",
     "vue-tsc": "^2.2.0"
   }
