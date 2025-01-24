@@ -1,23 +1,77 @@
-import { ref, type ComputedRef } from 'vue'
+import { ref } from 'vue'
+import type { Ref, ComputedRef } from 'vue'
 import type { Contract, OpenedContract } from '@ton/core'
 
 import { useOpenedContract } from './useOpenedContract'
 import { awaitConnected } from '../tonconnect/awaitConnected'
 import type { Awaitable } from '../utils/awaitable'
 
+/**
+ * The parameters of pagination.
+ */
 export interface UseItemsPaginatedProps<T extends Contract> {
+  /**
+   * Maximum number of items per iteration.
+   */
   pageLength?: number
+  /**
+   * A function that returns the total number of items as bigint.
+   *
+   * Probably, it will be something like:
+   * ```ts
+   * await collectionContract.getNextItemIndex()
+   * ```
+   */
   getTotalItems: () => Awaitable<bigint>
+  /**
+   * A function that returns a contract by its sequence number.
+   *
+   * Probably, it will be something like:
+   * ```ts
+   * ItemContract.fromAddress(await collectionContract.getItemByIndex(seqNum))
+   * ```
+   */
   getItemContract: (seqNum: bigint) => Awaitable<T>
+  /**
+   * A function that will be called before fetching the next page.
+   */
   beforeNextPage?: () => Awaitable<void>
 }
 
+export interface UseItemsPaginatedResult<T extends Contract> {
+  /**
+   * Whether the current page is the last one.
+   */
+  isLastPage: Ref<boolean>
+  /**
+   * Whether the next page is loading.
+   */
+  isFetching: Ref<boolean>
+  /**
+   * All items fetched so far.
+   */
+  items: Ref<ComputedRef<OpenedContract<T>>[]>
+  /**
+   * Fetches the next page.
+   */
+  nextPage: () => Promise<void>
+  /**
+   * Resets the pagination state.
+   */
+  reset: () => void
+}
+
+/**
+ * A high-level composable to paginate collections of TON contracts.
+ * @param params The parameters of pagination.
+ * @returns Syncronous pagination state and methods.
+ */
 export function useItemsPaginated<T extends Contract>({
   pageLength = 3,
   getTotalItems,
   getItemContract,
   beforeNextPage
-}: UseItemsPaginatedProps<T>) {
+}: UseItemsPaginatedProps<T>): UseItemsPaginatedResult<T> {
   const isLastPage = ref(false)
 
   const items = ref<ComputedRef<OpenedContract<T>>[]>([])

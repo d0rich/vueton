@@ -2,6 +2,9 @@ import { computed, type ComputedRef } from 'vue'
 import type { ContractProvider, Contract } from '@ton/core'
 import { useTonConnect } from '../tonconnect/useTonConnect'
 
+/**
+ * @see {@link ContractProvider}
+ */
 export function useContractProvider(
   contract: Contract
 ): ComputedRef<ContractProvider | null> {
