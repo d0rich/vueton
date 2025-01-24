@@ -21,7 +21,16 @@ export default defineConfig({
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: ['@ton/core', '@ton/ton', '@tonconnect/ui', 'axios', 'vue'],
+      external: [
+        'vue',
+        '@tonconnect/ui',
+        'axios',
+        '@ton/ton',
+        '@ton/core',
+        '@ton/core/dist/address/Address',
+        '@tonconnect/protocol',
+        '@ton/ton/dist/client/TonClient'
+      ],
       output: {
         // Provide global variables to use in the UMD build
         // for externalized deps
