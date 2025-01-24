@@ -1,5 +1,8 @@
 {
   "name": "@d0rich/vueton",
+  "publishConfig": {
+    "access": "public"
+  },
   "private": false,
   "version": "0.0.2",
   "scripts": {
