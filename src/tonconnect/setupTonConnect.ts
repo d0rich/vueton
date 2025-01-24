@@ -66,16 +66,25 @@ export function setupTonConnect<T extends SetupTonConnectProps>(
   const tonClient = ref(
     tonClientInitProps === null ? null : new TonClient(tonClientInitProps)
   ) as Ref<TonClient | null>
+
+  function setupAxiosRetry() {
+    if (!tonClient?.value?.api?.axios) {
+      console.warn('TonClient axios instance is not available')
+      return
+    }
+    if (props.axiosRetry) {
+      axiosRetry(tonClient.value.api.axios, props.axiosRetry)
+    }
+  }
+
   if (tonClientPropsPromise instanceof Promise) {
     tonClientPropsPromise.then((config) => {
       tonClient.value = new TonClient(config)
-      if (props.axiosRetry) {
-        axiosRetry(tonClient.value.api.axios, props.axiosRetry)
-      }
+      setupAxiosRetry()
     })
   } else if (tonClient.value) {
     if (props.axiosRetry) {
-      axiosRetry(tonClient.value.api.axios, props.axiosRetry)
+      setupAxiosRetry()
     }
   }
 
