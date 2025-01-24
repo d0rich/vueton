@@ -22,9 +22,6 @@ jobs:
       - name: Installing packages
         run: npm ci
 
-      - name: Prepare
-        run: npm run prepare
-
       - name: Build
         run: npm run build
 
