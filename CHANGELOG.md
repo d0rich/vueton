@@ -1,5 +1,11 @@
 # @d0rich/vueton
 
+## 0.0.6
+
+### Patch Changes
+
+- 0b10629: Add patches directory to .npmignore
+
 ## 0.0.5
 
 ### Patch Changes
