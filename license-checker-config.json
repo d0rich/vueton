@@ -3,9 +3,11 @@
   "ignoreFile": ".gitignore",
   "ignore": [
     ".nuxt/",
+    "docs/",
     ".output/",
     "docs/.nuxt/",
     "docs/.output/",
+    "**/*.patch",
     "**/*.md",
     "**/*.yml",
     "**/*.yaml",
@@ -16,7 +18,9 @@
     "*.prettierrc",
     "*.gitignore",
     "*.npmignore",
-    "*.prettierignore"
+    "*.prettierignore",
+    "eslint.config.js",
+    "vite.config.ts"
   ],
   "trailingWhitespace": "TRIM",
   "licenseFormats": {
@@ -24,14 +28,14 @@
       "prepend": "/*",
       "append": " */\n",
       "eachLine": {
-          "prepend": " * "
+        "prepend": " * "
       }
     },
     "vue": {
       "prepend": "<!--",
       "append": "  -->\n",
       "eachLine": {
-          "prepend": "  ~ "
+        "prepend": "  ~ "
       }
     }
   }
