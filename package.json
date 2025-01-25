@@ -8,7 +8,7 @@
     "vue3",
     "web3"
   ],
-  "license": "MIT",
+  "license": "Apache-2.0",
   "author": {
     "name": "Nikolai Dorofeev - d0rich",
     "email": "dorich2000@gmail.com",
@@ -45,14 +45,15 @@
     "dev": "vite",
     "lint:js": "eslint .",
     "lint:prettier": "prettier --check .",
-    "lint": "npm run lint:js && npm run lint:prettier",
-    "lintfix": "prettier --write --list-different . && eslint . --fix",
+    "lint:license": "license-check-and-add check",
+    "lint": "npm run lint:license && npm run lint:js && npm run lint:prettier",
+    "lintfix": "license-check-and-add add && prettier --write --list-different . && eslint . --fix",
     "changes": "changeset",
     "release": "npm run build && changeset publish"
   },
   "dependencies": {
-    "axios-retry": "^4.5.0",
-    "@vueuse/core": "^12.0.0"
+    "@vueuse/core": "^12.0.0",
+    "axios-retry": "^4.5.0"
   },
   "peerDependencies": {
     "@ton/core": "^0.59.0",
@@ -70,6 +71,7 @@
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-unicorn": "^56.0.1",
     "eslint-plugin-vitest": "^0.5.4",
+    "license-check-and-add": "^4.0.5",
     "typescript": "^5.7.3",
     "vite": "^6.0.11",
     "vite-plugin-dts": "^4.5.0",
