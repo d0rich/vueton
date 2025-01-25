@@ -68,10 +68,11 @@ app.use(vueton)
 
 ### Possible problems
 
+- `@ton/core` uses Node buffer implementation, so in order to use it in the browser, you need to use a polyfill like [`vite-plugin-node-polyfills`](https://www.npmjs.com/package/vite-plugin-node-polyfills).
 - [`@ton/ton`](https://www.npmjs.com/package/@ton/ton) client can not process accept complex responses from the endpoints. This problem is addressed here: https://github.com/ton-org/ton/pull/45
 - [`@orbs-network/ton-access`](https://www.npmjs.com/package/@orbs-network/ton-access) might reject some requests if you DApp sends too many requests in a short period of time. That's why `axios-retry` is used to retry the requests. However, [`@ton/ton`](https://www.npmjs.com/package/@ton/ton) does not provide an access to the axios instance to configure retries. The problem is addressed here: https://github.com/ton-org/ton/pull/73
 
-Both mentioned problems can be fixed by applying this patch to [`@ton/ton`](https://www.npmjs.com/package/@ton/ton) - https://github.com/d0rich/vueton/blob/main/patches/%40ton%2Bton%2B15.1.0.patch . Vueton can work with and without this patch.
+The two last mentioned problems can be fixed by applying this patch to [`@ton/ton`](https://www.npmjs.com/package/@ton/ton) - https://github.com/d0rich/vueton/blob/main/patches/%40ton%2Bton%2B15.1.0.patch . Vueton can work with and without this patch.
 
 ### Example
 
@@ -101,11 +102,12 @@ Send a transaction:
 
 <script setup lang="ts">
 import {useTonConnect, useSendMessage} from '@d0rich/vueton'
+import {Address, toNano, comment} from '@ton/core'
 
-const {tonWallet} = useTonConnect()
+const {tonWallet, sendTransaction} = useTonConnect()
 const {sendMessage, isFetching, success} = useSendMessage({
   sendMessageFn: async ({ userAddress }) => {
-    await ton.sendTransaction({
+    await sendTransaction({
       to: Address.parse('my TON wallet address'),
       value: toNano('0.5'),
       body: comment('Tip from reader')
