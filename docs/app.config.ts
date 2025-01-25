@@ -10,10 +10,10 @@ export default defineAppConfig({
       twitter: '@d0rich'
     },
     social: {
-      github: 'https://github.com/d0rich/vueton',
+      github: 'https://github.com/d0rich/vueton'
     },
     seo: {
-      keywords: ['web3', 'vue', 'ton', 'tonclient'],
+      keywords: ['web3', 'vue', 'ton', 'tonclient']
     },
     features: {
       gtag: {
