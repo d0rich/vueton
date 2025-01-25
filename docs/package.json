@@ -8,8 +8,7 @@
   "dependencies": {
     "@d0rich/vueton": "file:..",
     "@orbs-network/ton-access": "^2.3.3",
-    "d0xigen": "^1.1.2",
-    "nuxt": "^3.14.1592"
+    "d0xigen": "^1.1.2"
   },
   "devDependencies": {
     "vite-plugin-node-polyfills": "^0.23.0"
