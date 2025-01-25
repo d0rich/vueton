@@ -84,7 +84,7 @@ Show a connect button:
 </template>
 
 <script setup lang="ts">
-import {TonConnectButton} from 'vueton'
+import {TonConnectButton} from '@d0rich/vueton'
 </script>
 ```
 
