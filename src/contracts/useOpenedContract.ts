@@ -20,7 +20,7 @@ import type { OpenedContract, Contract } from '@ton/core'
 import { useTonConnect } from '../tonconnect/useTonConnect'
 
 /**
- * Syncronously opens a contract.
+ * Contains an opened contract instance whenever it is possible.
  *
  * @param contract A contract or a ref to a contract to open.
  * @returns A {@link ComputedRef} to the opened contract.
