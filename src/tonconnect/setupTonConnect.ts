@@ -1,10 +1,25 @@
+/*
+ * Copyright 2025 d0rich (Nikolai Dorofeev, dorich2000@gmail.com, https://d0rich.me)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import axiosRetry from 'axios-retry'
 import { ref, computed, type Ref } from 'vue'
-import { toUserFriendlyAddress } from '@tonconnect/ui'
+import { TonConnectUI, toUserFriendlyAddress } from '@tonconnect/ui'
 import type { SenderArguments, Sender } from '@ton/core'
 import { Address } from '@ton/core/dist/address/Address'
 import { CHAIN } from '@tonconnect/protocol'
-import { TonConnectUI } from '@tonconnect/ui'
 import {
   TonClient,
   type TonClientParameters
@@ -12,14 +27,13 @@ import {
 import type {
   SetupTonConnectProps,
   Network,
-  SetupTonConnectReturn,
-  SetupTonConnectPropsAsync
+  SetupTonConnectReturn
 } from './types'
 import { setGlobalTonConnect } from '../store'
 
 export function setupTonConnect<T extends SetupTonConnectProps>(
   props: T
-): SetupTonConnectReturn<T> {
+): SetupTonConnectReturn {
   // useTonConnectUI replacement
   const tonConnect = new TonConnectUI(props.tonConnectUI)
 
@@ -67,23 +81,30 @@ export function setupTonConnect<T extends SetupTonConnectProps>(
 
   const tonClient = ref(
     tonClientInitProps === null ? null : new TonClient(tonClientInitProps)
-  ) as T extends SetupTonConnectPropsAsync
-    ? Ref<TonClient | null>
-    : Ref<TonClient>
-  if (tonClientPropsPromise instanceof Promise) {
-    tonClientPropsPromise.then((config) => {
-      tonClient.value = new TonClient(config)
-      if (props.axiosRetry) {
-        axiosRetry(tonClient.value.api.axios, props.axiosRetry)
-      }
-    })
-  } else if (tonClient.value) {
+  ) as Ref<TonClient | null>
+
+  function setupAxiosRetry() {
+    if (!tonClient?.value?.api?.axios) {
+      console.warn('TonClient axios instance is not available')
+      return
+    }
     if (props.axiosRetry) {
       axiosRetry(tonClient.value.api.axios, props.axiosRetry)
     }
   }
 
-  const result: SetupTonConnectReturn<T> = {
+  if (tonClientPropsPromise instanceof Promise) {
+    tonClientPropsPromise.then((config) => {
+      tonClient.value = new TonClient(config)
+      setupAxiosRetry()
+    })
+  } else if (tonClient.value) {
+    if (props.axiosRetry) {
+      setupAxiosRetry()
+    }
+  }
+
+  const result: SetupTonConnectReturn = {
     tonConnect,
     tonClient,
     isConnected,
