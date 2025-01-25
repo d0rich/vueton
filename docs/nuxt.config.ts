@@ -8,6 +8,11 @@ export default defineNuxtConfig({
       nodePolyfills({
         include: ['buffer']
       })
-    ]
+    ],
+    build: {
+      commonjsOptions: {
+        strictRequires: true
+      }
+    }
   }
 })
