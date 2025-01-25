@@ -1,5 +1,11 @@
 # @d0rich/vueton
 
+## 0.1.0
+
+### Minor Changes
+
+- 2827424: Good looking documentation
+
 ## 0.0.6
 
 ### Patch Changes
