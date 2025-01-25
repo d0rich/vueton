@@ -2,7 +2,8 @@
   "private": true,
   "scripts": {
     "dev": "nuxi dev",
-    "generate": "nuxi generate"
+    "generate": "nuxi generate",
+    "preview": "nuxi preview"
   },
   "dependencies": {
     "@d0rich/vueton": "file:..",
