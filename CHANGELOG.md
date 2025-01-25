@@ -1,5 +1,11 @@
 # @d0rich/vueton
 
+## 0.1.1
+
+### Patch Changes
+
+- 6b4422a: Export TonConnectButton
+
 ## 0.1.0
 
 ### Minor Changes
