@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import TonConnectButton from './tonconnect/TonConnectButton.vue'
+export { TonConnectButton }
 export { useTonConnect } from './tonconnect/useTonConnect'
 export { awaitConnected } from './tonconnect/awaitConnected'
 export { onWalletUpdate } from './tonconnect/onWalletUpdate'
