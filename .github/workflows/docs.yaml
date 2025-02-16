@@ -17,9 +17,15 @@ jobs:
         with:
           node-version: 22.11.0
 
+      - name: Install packages for Vueton
+        run: npm ci
+
+      - name: Build Vueton
+        run: npm run build
+
       - name: Installing packages
         working-directory: ./docs
-        run: npm install
+        run: npm ci
 
       - name: Build Nuxt 3 static site
         working-directory: ./docs
