@@ -1,0 +1,1 @@
+import{_ as t}from"./DYzzHncb.js";import{e as o,o as _,c as a,b as e,w as c,i as r,X as s}from"./Bk4cXetx.js";import"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";const d=o({__name:"TonConnectButtonClient",setup(l){return(m,p)=>{const n=t;return _(),a("div",null,[e(n,null,{default:c(()=>[e(r(s))]),_:1})])}}});export{d as default};

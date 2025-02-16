@@ -1,0 +1,1 @@
+import{_ as o}from"./DlAUqK2U.js";import{o as e,c as t,r as n}from"./Bk4cXetx.js";import"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";const s={};function c(r,a){return e(),t("strong",null,[n(r.$slots,"default")])}const m=o(s,[["render",c]]);export{m as default};

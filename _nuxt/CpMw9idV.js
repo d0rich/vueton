@@ -1,0 +1,1 @@
+import{_ as o}from"./DlAUqK2U.js";import{o as r,c as s,r as t}from"./Bk4cXetx.js";import"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";const n={},c={class:"not-prose prose-code-inline"};function a(e,l){return r(),s("code",c,[t(e.$slots,"default")])}const f=o(n,[["render",a]]);export{f as default};

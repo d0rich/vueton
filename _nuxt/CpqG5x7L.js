@@ -1,0 +1,1 @@
+import{_ as e}from"./DlAUqK2U.js";import{o as s,c as t,r}from"./Bk4cXetx.js";import"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";const a={name:"DChip"},c={class:"d-chip"};function n(o,p,i,_,d,f){return s(),t("span",c,[r(o.$slots,"default")])}const u=e(a,[["render",n]]);export{u as default};
